@@ -1,6 +1,5 @@
 "use strict";
 
-var fs = require("fs");
 var requestIp = require("request-ip");
 var MMDBReader = require("mmdb-reader");
 
@@ -20,10 +19,6 @@ module.exports = function (options, accessDenied) {
 		if (!options.geolite2) {
 			throw new Error("options.geolite2 is not set");
 		}
-		
-		// Check that geolite2 exists (fs.exists is deprecated)
-		var geo2 = fs.openSync(options.geolite2, "r");
-		fs.close(geo2);
 		
 		options.blocked = options.blocked || [];
 		options.blockedCountries = options.blockedCountries || [];
