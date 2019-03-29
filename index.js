@@ -58,18 +58,20 @@ module.exports = function (options, accessDenied) {
 			// 2. If user added country to Blocked Countries collection then only those countries
             // are blocked
 
-			blocked = query !== null && options.blockedCountries.indexOf(query.country.iso_code) > -1;
+			blocked = query !== null && options.blockedCountries.indexOf(query.country && query.country.iso_code) > -1;
 		} else if (options.allowedCountries.length > 0) {
 
 			// 3. If user added country to Allowed Countries collecction then all countries except allowed
             // are blocked
 
-			blocked = query === null || options.allowedCountries.indexOf(query.country.iso_code) === -1;
+			blocked = query === null || options.allowedCountries.indexOf(query.country && query.country.iso_code) === -1;
 		}
 
 		if (!blocked && query !== null) {
 			req.location.country.data = query;
-			req.location.country.isoCode = query.country.iso_code;
+			if (query.country) {
+				req.location.country.isoCode = query.country.iso_code;
+			}
 		}
 
 		return blocked;
